@@ -24,7 +24,7 @@ all_geocodes_v2016 <- read_excel("all-geocodes-v2016.xlsx", skip = 4)
 
 ## remove the as_of_year, state_name, state_abbr, agency_name, msamd_name for redundancy, rate_spread for too many NAs
 data.1 <- data.ori %>% select(!c(as_of_year, state_name, state_abbr, agency_name, msamd_name, rate_spread))
-## remove for irrelavancy: respondent_id, application_date_indicator, sequence_number, purchaser_type_name, preapproval_name,edit_status_name,
+## 
 data.1 <- data.1 %>% select(!c(respondent_id, application_date_indicator,sequence_number, purchaser_type_name, 
                                preapproval_name, edit_status_name))
                                
@@ -133,10 +133,12 @@ data.yes = data.1 %>% filter(loan_approved == 'Yes') %>% select(!c((denials)))# 
 data.no = data.1 %>% filter(loan_approved == 'No')
 
 
-
+### NOTE.0: loan_approved is the class label!
 ### NOTE.1: county_code, county_name are actually redundant, they are there for EDA graphics. census_tract_number gives a more detailed geo info.
 ### NOTE.2: If wanna study the denial reasons in detail, perhaps one does NOT wanna to combine denial reasons.
-### NOTE.3: denials is actually redundant for classification. 
+### NOTE.3: denials is actually redundant for classification.
+### NOTE.4: hoepa_status_name is 100% colinear with the response, hence it is recommended to be removed for loan approval classification.
+### NOTE.5: Depends on your chosen algorithm, you probably wanna perform some feature scalings (standardization/normalization) to get better results.
 
 ## Output to csv
 if (output.csv == 'Yes'){
